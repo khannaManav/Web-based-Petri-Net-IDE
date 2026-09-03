@@ -1,0 +1,84 @@
+{
+  "name": "basic_net",
+  "saved": "2026-08-26T01:59:16.763Z",
+  "net": {
+    "places": [
+      {
+        "id": "p0",
+        "label": "p0",
+        "desc": "",
+        "tokens": 0,
+        "x": 203,
+        "y": 102
+      },
+      {
+        "id": "p1",
+        "label": "p1",
+        "desc": "",
+        "tokens": 0,
+        "x": 204,
+        "y": 268
+      },
+      {
+        "id": "p2",
+        "label": "p2",
+        "desc": "",
+        "tokens": 1,
+        "x": 559,
+        "y": 172
+      }
+    ],
+    "transitions": [
+      {
+        "id": "t0",
+        "label": "t0",
+        "x": 356,
+        "y": 172
+      },
+      {
+        "id": "t1",
+        "label": "t1",
+        "x": 814,
+        "y": 173
+      }
+    ],
+    "arcs": [
+      {
+        "id": "a0",
+        "from": "p0",
+        "to": "t0",
+        "weight": 1
+      },
+      {
+        "id": "a1",
+        "from": "p1",
+        "to": "t0",
+        "weight": 1
+      },
+      {
+        "id": "a2",
+        "from": "t0",
+        "to": "p2",
+        "weight": 1
+      },
+      {
+        "id": "a3",
+        "from": "p2",
+        "to": "t1",
+        "weight": 1
+      },
+      {
+        "id": "a4",
+        "from": "t1",
+        "to": "p0",
+        "weight": 1
+      },
+      {
+        "id": "a5",
+        "from": "t1",
+        "to": "p1",
+        "weight": 1
+      }
+    ]
+  }
+}

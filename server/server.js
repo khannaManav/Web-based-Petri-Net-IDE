@@ -1,0 +1,15 @@
+'use strict';
+const express=require('express'),cors=require('cors'),path=require('path'),fs=require('fs');
+const app=express(),PORT=process.env.PORT||3001;
+const DATA=path.join(__dirname,'data');
+if(!fs.existsSync(DATA))fs.mkdirSync(DATA,{recursive:true});
+app.use(cors({origin:'*'}));
+app.use(express.json({limit:'2mb'}));
+const safe=n=>String(n).trim().toLowerCase().replace(/[^a-z0-9_-]/g,'_').slice(0,64);
+const fp=n=>path.join(DATA,safe(n)+'.json');
+app.get('/api/health',(_,res)=>res.json({status:'ok'}));
+app.get('/api/nets',(_,res)=>{try{const nets=fs.readdirSync(DATA).filter(f=>f.endsWith('.json')).map(f=>f.replace('.json',''));res.json({nets,count:nets.length});}catch(e){res.status(500).json({error:e.message});}});
+app.get('/api/nets/:name',(req,res)=>{const f=fp(req.params.name);if(!fs.existsSync(f))return res.status(404).json({error:'Not found'});try{res.json(JSON.parse(fs.readFileSync(f,'utf-8')));}catch(e){res.status(500).json({error:e.message});}});
+app.post('/api/nets',(req,res)=>{const{name,net}=req.body;if(!name?.trim())return res.status(400).json({error:'Name required'});if(!net)return res.status(400).json({error:'Net data required'});const n=safe(name);try{fs.writeFileSync(fp(n),JSON.stringify({name:n,saved:new Date().toISOString(),net},null,2));res.status(201).json({message:'Saved',name:n});}catch(e){res.status(500).json({error:e.message});}});
+app.delete('/api/nets/:name',(req,res)=>{const f=fp(req.params.name);if(!fs.existsSync(f))return res.status(404).json({error:'Not found'});try{fs.unlinkSync(f);res.json({message:'Deleted',name:req.params.name});}catch(e){res.status(500).json({error:e.message});}});
+app.listen(PORT,()=>console.log(`Petri Net IDE server at http://localhost:${PORT}`));

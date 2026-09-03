@@ -1,0 +1,136 @@
+{
+  "name": "sum",
+  "saved": "2026-08-26T02:01:19.683Z",
+  "net": {
+    "places": [
+      {
+        "id": "p1",
+        "label": "x",
+        "desc": "x",
+        "tokens": 55,
+        "x": 40,
+        "y": 40
+      },
+      {
+        "id": "p2",
+        "label": "y",
+        "desc": "y",
+        "tokens": 15,
+        "x": 40,
+        "y": 85
+      },
+      {
+        "id": "p3",
+        "label": "s",
+        "desc": "s",
+        "tokens": 0,
+        "x": 40,
+        "y": 135
+      },
+      {
+        "id": "p4",
+        "label": "z=x+y",
+        "desc": "z=x+y",
+        "tokens": 0,
+        "x": 235,
+        "y": 40
+      },
+      {
+        "id": "p5",
+        "label": "f",
+        "desc": "f",
+        "tokens": 0,
+        "x": 235,
+        "y": 135
+      }
+    ],
+    "transitions": [
+      {
+        "id": "t1",
+        "label": "t1",
+        "x": 120,
+        "y": 40
+      },
+      {
+        "id": "t2",
+        "label": "t2",
+        "x": 185,
+        "y": 85
+      },
+      {
+        "id": "t3",
+        "label": "t3",
+        "x": 110,
+        "y": 135
+      }
+    ],
+    "arcs": [
+      {
+        "id": "a0",
+        "from": "p3",
+        "to": "t1",
+        "weight": 0
+      },
+      {
+        "id": "a1",
+        "from": "p1",
+        "to": "t1",
+        "weight": 1
+      },
+      {
+        "id": "a2",
+        "from": "t1",
+        "to": "p4",
+        "weight": 1
+      },
+      {
+        "id": "a3",
+        "from": "p2",
+        "to": "t2",
+        "weight": 1
+      },
+      {
+        "id": "a4",
+        "from": "p3",
+        "to": "t2",
+        "weight": 0
+      },
+      {
+        "id": "a5",
+        "from": "t2",
+        "to": "p4",
+        "weight": 1
+      },
+      {
+        "id": "a6",
+        "from": "p1",
+        "to": "t3",
+        "weight": 0
+      },
+      {
+        "id": "a7",
+        "from": "p2",
+        "to": "t3",
+        "weight": 0
+      },
+      {
+        "id": "a8",
+        "from": "p3",
+        "to": "t3",
+        "weight": 0
+      },
+      {
+        "id": "a9",
+        "from": "p5",
+        "to": "t3",
+        "weight": 1
+      },
+      {
+        "id": "a10",
+        "from": "t3",
+        "to": "p3",
+        "weight": 1
+      }
+    ]
+  }
+}

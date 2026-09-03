@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Petri Net IDE — 7CS997 MSc IT · University of Derby</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header id="header">
+    <h1>Petri Net IDE</h1>
+    <span class="sub">Place-Transition Nets · 7CS997 MSc IT · University of Derby</span>
+    <span id="status-msg"></span>
+  </header>
+
+  <div id="toolbar">
+    <span class="tlabel">Tool:</span>
+    <button id="btn-select" class="active" onclick="setTool('select')" title="Select/fire/edit (S)">↖ Select</button>
+    <button id="btn-place" onclick="setTool('place')" title="Add Place (P)">○ Place</button>
+    <button id="btn-transition" onclick="setTool('transition')" title="Add Transition (T)">▬ Transition</button>
+    <button id="btn-arc" onclick="setTool('arc')" title="Draw Arc (A)">→ Arc</button>
+    <button id="btn-token" onclick="setTool('token')" title="Left-click:add · Right-click:remove (K)">● Token</button>
+    <button id="btn-erase" onclick="setTool('erase')" title="Delete element (E)">✕ Erase</button>
+    <div class="sep"></div>
+    <button id="btn-step" onclick="stepOnce()" class="g" title="Step (Space)">▶ Step</button>
+    <button id="btn-auto" onclick="toggleAuto()" class="g" title="Auto simulation">▶▶ Auto</button>
+    <button onclick="resetMarking()" class="gray" title="Reset tokens (R)">↺ Reset</button>
+    <label class="tlabel">Fast</label>
+    <input type="range" id="speed-slider" min="1" max="10" step="1" value="5">
+    <label class="tlabel">Slow</label>
+    <div class="sep"></div>
+    <label class="fbtn" title="Import TINA .ndr"><button class="teal">⬆ Import .ndr</button><input type="file" accept=".ndr,.net" onchange="importNDRFile(event)"></label>
+    <label class="fbtn" title="Load JSON"><button>⬆ Load .json</button><input type="file" accept=".json" onchange="loadNetFile(event)"></label>
+    <button class="blue" onclick="saveNetJSON()">⬇ Save .json</button>
+    <button class="purple" onclick="exportNDR()">⬇ Export .ndr</button>
+    <div class="sep"></div>
+    <button class="navy" onclick="saveToServer()">☁ Save to server</button>
+    <button class="navy" onclick="loadFromServer()">☁ Load from server</button>
+    <div class="sep"></div>
+    <button class="gray" onclick="clearAll()">Clear all</button>
+  </div>
+
+  <div id="props-bar">
+    <span id="props-title"></span>
+    <span id="name-row" class="pf"><label>Name</label><input type="text" id="name-input" maxlength="20" style="width:100px"></span>
+    <span id="desc-row" class="pf"><label>Label/Desc</label><input type="text" id="desc-input" maxlength="40" style="width:150px" placeholder="optional"></span>
+    <span id="tokens-row" class="pf">
+      <label>Tokens</label>
+      <button onclick="adjustToken(-1)" style="padding:3px 9px;font-size:15px;line-height:1">−</button>
+      <input type="number" id="tokens-input" min="0" max="9999" style="width:62px;text-align:center">
+      <button onclick="adjustToken(+1)" style="padding:3px 9px;font-size:15px;line-height:1">+</button>
+    </span>
+    <span id="weight-row" class="pf" style="display:none">
+      <label>Multiplicity</label>
+      <input type="number" id="weight-input" min="0" max="99" style="width:52px">
+      <span class="hint">(0=inhibitor)</span>
+    </span>
+    <button class="g" onclick="applyProps()">Apply</button>
+    <button onclick="closeProps()">Cancel</button>
+  </div>
+
+  <div id="canvas-wrap">
+    <svg id="cv" xmlns="http://www.w3.org/2000/svg" width="3000" height="2000">
+      <defs>
+        <marker id="arr"     markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#666"/></marker>
+        <marker id="arr-en"  markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#27ae60"/></marker>
+        <marker id="arr-sel" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#2E75B6"/></marker>
+        <marker id="inh"     markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto"><circle cx="6" cy="6" r="4.5" fill="white" stroke="#666"    stroke-width="1.6"/></marker>
+        <marker id="inh-en"  markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto"><circle cx="6" cy="6" r="4.5" fill="white" stroke="#27ae60" stroke-width="1.8"/></marker>
+        <marker id="inh-sel" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto"><circle cx="6" cy="6" r="4.5" fill="white" stroke="#2E75B6" stroke-width="1.8"/></marker>
+      </defs>
+      <g id="arcs-layer"></g>
+      <g id="nodes-layer"></g>
+      <path id="arc-preview" fill="none" stroke="#2E75B6" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arr)" style="display:none;pointer-events:none"/>
+    </svg>
+  </div>
+
+  <div id="marking-bar">
+    <b>M =</b><span id="marking-display">{ }</span>
+    <span id="deadlock-badge">DEADLOCK</span>
+  </div>
+  <div id="statusbar">
+    <span>Places: <b id="cnt-p">0</b></span>
+    <span>Transitions: <b id="cnt-t">0</b></span>
+    <span>Arcs: <b id="cnt-a">0</b></span>
+    <span id="tip-bar">Green=enabled click to fire · Circle arc=inhibitor · Drag to move · Right-click place (Token tool) to remove token</span>
+  </div>
+
+  <script src="js/engine.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/fileio.js"></script>
+  <script src="js/interactions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#header{background:#1F3864;color:#fff;padding:9px 18px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+#header h1{font-size:15px;font-weight:600;white-space:nowrap}
+#header .sub{font-size:11px;color:#aac8f0;flex:1}
+#status-msg{font-size:11px;color:#7aaadd;min-width:200px;text-align:right}
+#toolbar{background:#e8edf5;border-bottom:1px solid #c8d4e8;padding:6px 14px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex-shrink:0}
+.sep{width:1px;background:#b8c8da;height:22px;margin:0 3px;flex-shrink:0}
+.tlabel{font-size:11px;color:#5a6a7a;white-space:nowrap}
+button{cursor:pointer;border-radius:5px;font-size:12.5px;padding:5px 11px;border:1px solid #bac8da;background:#fff;color:#1a2a3a;transition:background .12s;white-space:nowrap;font-family:inherit}
+button:hover{background:#d8e4f0;border-color:#8aa8cc}
+button.active{background:#1F3864;color:#fff;border-color:#1F3864}
+button.g{background:#27ae60;color:#fff;border-color:#27ae60}
+button.g:hover{background:#1e8449}
+button.orange{background:#e67e22;color:#fff;border-color:#e67e22}
+button.blue{background:#2E75B6;color:#fff;border-color:#2E75B6}
+button.blue:hover{background:#235d92}
+button.purple{background:#6c3483;color:#fff;border-color:#6c3483}
+button.purple:hover{background:#552a69}
+button.teal{background:#0e6655;color:#fff;border-color:#0e6655}
+button.teal:hover{background:#0b5345}
+button.navy{background:#1a5276;color:#fff;border-color:#1a5276}
+button.navy:hover{background:#154360}
+button.gray{background:#95a5a6;color:#fff;border-color:#95a5a6}
+button.gray:hover{background:#7f8c8d}
+.fbtn{position:relative;display:inline-block}
+.fbtn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+input[type=text],input[type=number]{font-size:12.5px;padding:5px 8px;border-radius:5px;border:1px solid #bac8da;background:#fff;color:#1a2a3a;font-family:inherit}
+input[type=range]{vertical-align:middle;cursor:pointer;accent-color:#1F3864;width:70px}
+#props-bar{display:none;background:#dde8f8;border-bottom:1px solid #b8cce8;padding:7px 14px;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0}
+#props-title{font-size:12px;font-weight:600;color:#1F3864;white-space:nowrap}
+.pf{display:flex;align-items:center;gap:6px}
+.pf label{font-size:11px;color:#5a6a7a;white-space:nowrap}
+.hint{font-size:10.5px;color:#7a8a9a}
+#canvas-wrap{flex:1;overflow:auto;background:#ccc}
+#cv{display:block;background:#fff}
+#marking-bar{background:#e8f0fb;border-top:1px solid #c0d0e8;padding:5px 16px;font-size:11.5px;color:#1F3864;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap;flex-shrink:0}
+#marking-bar b{flex-shrink:0}
+#deadlock-badge{display:none;background:#c0392b;color:white;padding:1px 10px;border-radius:10px;font-size:10.5px;font-weight:600;margin-left:8px}
+#statusbar{background:#e0e8f0;border-top:1px solid #c0d0e8;padding:3px 16px;font-size:11px;color:#5a6a7a;display:flex;gap:16px;align-items:center;flex-shrink:0}
+#statusbar b{color:#1a2a3a}
+#tip-bar{flex:1;color:#7a8a9a}
